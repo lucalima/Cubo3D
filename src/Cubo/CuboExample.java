@@ -23,9 +23,8 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
     private SimpleUniverse universe = null;
     long tempoInicial = 0;
     TreeSet<CuboVo> set = new TreeSet<CuboVo>(new PorTempo());
-   
+
     // Construtor da classe GeometryExample
-   
     public CuboExample() {
         Container container = getContentPane();
         container.setLayout(new BorderLayout());
@@ -80,14 +79,14 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
     public boolean rotate(MouseEvent me) {
         OrbitBehavior or = new OrbitBehavior();
         or.getRotXFactor();
-       // System.out.print(or);
+        // System.out.print(or);
         return true;
 
     }
 
-    ///////////////////////////////////////////////////////////////////////
-    // M�todo respons�vel pela cria��o do grafo de cena (ou sub-grafo)
-    //    
+    ////////////////////////////////////////////////////////////////////////
+    /// M�todo respons�vel pela cria��o do grafo de cena (ou sub-grafo) ///
+    //////////////////////////////////////////////////////////////////////
     public BranchGroup criaGrafoDeCena() {
         // Cria o nodo raiz 
         BranchGroup objRaiz = new BranchGroup();
@@ -140,15 +139,10 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
                 new Color3f(1.0f, 1.0f, 1.0f), 60.0f);//muda cor da letra
         app.setMaterial(material);
 
-
-
-
         Shape3D s3d = new Shape3D();
         s3d.setAppearance(app);
         s3d.setGeometry(cubeGeometry());
         objTrans.addChild(s3d);
-
-
 
         // Cria outro nodo TransformGroup node e permite que ele possa
         // ser alterado em tempo de execu��o (TRANSFORM_WRITE).
@@ -163,10 +157,6 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
         Transform3D trans = new Transform3D();
         Transform3D t1 = new Transform3D();
         Vector3f vector = new Vector3f();
-
-      /*  s3d.getLocalToVworld(t1);
-        t1.get(vector);
-        System.out.print(t1);*/
 
         Transform3D xRot = new Transform3D();
         Transform3D yRot = new Transform3D();
@@ -201,13 +191,11 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
         objRaiz.compile();
 
         return objRaiz;
-
     }
 
-   
     private Geometry cubeGeometry() {
         GeometryInfo gi = new GeometryInfo(GeometryInfo.QUAD_ARRAY);
-        
+
         Point3f[] pts = new Point3f[8];
         pts[0] = new Point3f(-0.5f, 0.5f, 0.5f);
         pts[1] = new Point3f(0.5f, 0.5f, 0.5f);
@@ -227,14 +215,14 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
         };
         ColorCube cc = new ColorCube(0.2);
         QuadArray geom = (QuadArray) cc.getGeometry();
-       
+
         QuadArray quad = new QuadArray(24, QuadArray.COORDINATES);
         for (int i = 0; i < geom.getVertexCount(); i++) {
             double[] d = new double[3];
             geom.getCoordinate(i, d);
             quad.setCoordinate(i, d);
         }
-        
+
 
         gi.setCoordinates(pts);
         gi.setCoordinateIndices(indices);
@@ -259,7 +247,6 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
 
     @Override
     public void mouseDragged(MouseEvent e) {
-
         CuboVo cuboVo = new CuboVo();
         cuboVo.setTempo((e.getWhen() - tempoInicial) / 1000);
         cuboVo.setX(e.getX());
@@ -286,22 +273,25 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
 
     @Override
     public void mouseReleased(MouseEvent e) {
-        System.out.println("soltou");
-        try {        
+        try {
+            System.out.println("soltou");
             percorreLista(set);
-        } catch (SQLException | ClassNotFoundException ex) {
-            ex.printStackTrace();
+        } catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage());
         }
-       
     }
 
-    public void percorreLista(TreeSet<CuboVo> set) throws SQLException, ClassNotFoundException {
-        Iterator itr = set.iterator();
-        while (itr.hasNext()) {
-            CuboVo cuboVo = (CuboVo) itr.next();
-            CuboBe be = new CuboBe();
-            be.cadastrarCubo(cuboVo);
-            System.out.println("Tempo = " + cuboVo.getTempo() + " X " + cuboVo.getX() + " Y " + cuboVo.getY() + " Z " + cuboVo.getZ());
+    public void percorreLista(TreeSet<CuboVo> set) {
+        try {
+            Iterator itr = set.iterator();
+            while (itr.hasNext()) {
+                CuboVo cuboVo = (CuboVo) itr.next();
+                CuboBe be = new CuboBe();
+                be.cadastrarCubo(cuboVo);
+                System.out.println("Tempo = " + cuboVo.getTempo() + " X " + cuboVo.getX() + " Y " + cuboVo.getY() + " Z " + cuboVo.getZ());
+            }
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 

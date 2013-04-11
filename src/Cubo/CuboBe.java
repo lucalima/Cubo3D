@@ -8,7 +8,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-
 /**
  *
  * @author Lucas Lima
@@ -18,16 +17,7 @@ public class CuboBe {
     private Connection conexao = null;
 
     public CuboBe() throws SQLException, ClassNotFoundException {
-        conexao = abreConexao();
-    }
-
-    private Connection abreConexao() throws SQLException, ClassNotFoundException {
-        try {
-            Class.forName("com.mysql.jdbc.Driver");
-            return DriverManager.getConnection("jdbc:mysql://localhost:3306/cuboproject", "root", "noturno");
-        } catch (ClassNotFoundException e) {
-            throw new SQLException(e.getMessage());
-        }
+        conexao = new ConnectionFactory().getConnection();
     }
 
     public void fechaConexao() {
@@ -50,11 +40,12 @@ public class CuboBe {
         }
     }
 
-    public void cadastrarCubo(CuboVo cuboVo) throws SQLException {
-
-        CuboDao dao = new CuboDao(conexao);
-        dao.cadastrarCubo(cuboVo);
-        //conexao.commit();
-
+    public void cadastrarCubo(CuboVo cuboVo) {
+        try {
+            CuboDao dao = new CuboDao(conexao);
+            dao.cadastrarCubo(cuboVo);
+        } catch (SQLException e) {
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }
