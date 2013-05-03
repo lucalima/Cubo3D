@@ -5,7 +5,6 @@
 package Cubo;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
@@ -16,8 +15,13 @@ public class CuboBe {
 
     private Connection conexao = null;
 
-    public CuboBe() throws SQLException, ClassNotFoundException {
-        conexao = new ConnectionFactory().getConnection();
+    public CuboBe() {
+        try {
+            conexao = new ConnectionFactory().getConnection();
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
     }
 
     public void fechaConexao() {
@@ -44,7 +48,7 @@ public class CuboBe {
         try {
             CuboDao dao = new CuboDao(conexao);
             dao.cadastrarCubo(cuboVo);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }

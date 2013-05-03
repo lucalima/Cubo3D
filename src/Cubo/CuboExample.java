@@ -290,7 +290,7 @@ public class CuboExample extends JFrame implements MouseMotionListener, MouseLis
                 be.cadastrarCubo(cuboVo);
                 System.out.println("Tempo = " + cuboVo.getTempo() + " X " + cuboVo.getX() + " Y " + cuboVo.getY() + " Z " + cuboVo.getZ());
             }
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
         }
     }

@@ -12,6 +12,7 @@ public class CuboVo {
 
     private long codigo;
     private long tempo;
+    private long click;
     private long x;
     private long y;
     private long z;
@@ -103,5 +104,19 @@ public class CuboVo {
      */
     public void setCodigo(long codigo) {
         this.codigo = codigo;
+    }
+
+    /**
+     * @return the click
+     */
+    public long getClick() {
+        return click;
+    }
+
+    /**
+     * @param click the click to set
+     */
+    public void setClick(long click) {
+        this.click = click;
     }
 }

@@ -27,9 +27,9 @@ public class CuboDao {
             //SQL que será executado no banco de dados
             String sql =
                     "INSERT INTO TB_TIME_LINE "
-                    + "	(TEMPO, X, Y, Z) "
-                    + "	VALUES "
-                    + "	(?, ?, ?, ?)";
+                    + "(TEMPO, X, Y, Z) "
+                    + "VALUES "
+                    + "(?, ?, ?, ?)";
             ps = conexao.prepareStatement(sql);
 
             //Passando os parâmetros para o SQL que será executado

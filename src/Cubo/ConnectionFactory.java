@@ -19,7 +19,7 @@ public class ConnectionFactory {
         try {
             // Driver do Banco Escolhido
             Class.forName("com.mysql.jdbc.Driver");
-            // String de conexao com o banco escolhido
+            // String de conexao com o banco e scolhido
             return DriverManager.getConnection("jdbc:mysql://localhost:3306/cuboproject", "root", "");
         } catch (ClassNotFoundException | SQLException e) {
             throw new RuntimeException(e.getMessage());
